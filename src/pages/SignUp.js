@@ -272,7 +272,7 @@ const SignUp = () => {
 
                 {/* Add reCAPTCHA component */}
                 <ReCAPTCHA
-                  sitekey="6LcnvOUpAAAAALd7MKCNEWVA_dHRYECcL_Ug5AXc"
+                  sitekey="6Le0euYpAAAAAAzfT-AiVT_qAdwS8Cta6MHcpuJy"
                   onChange={handleCaptchaChange}
                 />
                 <Button
