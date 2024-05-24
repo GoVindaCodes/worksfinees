@@ -69,7 +69,8 @@ const useBulkActionSubmit = (ids, lang = "en", childId) => {
       // currencies data
       const currenciesData = {
         ids: ids,
-        enabled: published ? "show" : "hide",
+        // enabled: published ? "show" : "hide",
+        status: published ? "show" : "hide",
         live_exchange_rates: published2 ? "show" : "hide",
       };
       // category data
@@ -126,10 +127,11 @@ const useBulkActionSubmit = (ids, lang = "en", childId) => {
 
       if (location.pathname === "/currencies") {
         const res = await CurrencyServices.updateManyCurrencies(currenciesData);
+        // console.log("hi from bulks:", res)
         setIsUpdate(true);
         notifySuccess(res.message);
         closeBulkDrawer();
-        console.log("currencies update Many");
+        // console.log("currencies update Many");
       }
 
       if (

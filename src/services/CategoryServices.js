@@ -184,23 +184,24 @@ const CategoryServices = {
   },
 
   getCategoryById: async (id) => {
-    return requests.get(`/api/category/${id}`); // Updated route
+    console.log("hi:", id)
+    return requests.get(`/api/category/${id}`);
   },
 
   addCategory: async (body) => {
-    return requests.post("/api/category/add", body); // Updated route
+    return requests.post("/api/category/add", body);
   },
 
   addAllCategory: async (body) => {
-    return requests.post("/api/category/add/all", body); // Updated route
+    return requests.post("/api/category/add/all", body);
   },
 
   updateCategory: async (id, body) => {
-    return requests.put(`/api/category/${id}`, body); // Updated route
+    return requests.put(`/api/category/${id}`, body);
   },
 
   updateStatus: async (id, body) => {
-    return requests.put(`/api/category/status/${id}`, body); // Updated route
+    return requests.put(`/api/category/status/${id}`, body);
   },
 
   // deleteCategory: async (id) => {
@@ -222,11 +223,11 @@ const CategoryServices = {
 
   updateManyCategory: async (body) => {
     const { ids, status } = body;
-    return requests.patch("/api/category/update/many", { ids, status }); // Updated route
+    return requests.patch("/api/category/update/many", { ids, status });
   },
 
   deleteManyCategory: async (body) => {
-    return requests.patch("/api/category/delete/many", body); // Updated route
+    return requests.patch("/api/category/delete/many", body);
   },
 };
 

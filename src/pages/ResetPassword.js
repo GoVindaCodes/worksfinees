@@ -99,14 +99,15 @@ const ResetPassword = () => {
                   {t("Reset")}
                 </Button>
               </form>
-              <p className="mt-4">
+              {/* Testers Commands */}
+              {/* <p className="mt-4">
                 <Link
                   className="text-sm font-medium text-green-500 dark:text-green-400 hover:underline"
                   to="/login"
                 >
                   {t("AlreadyAccount")}
                 </Link>
-              </p>
+              </p> */}
             </div>
           </main>
         </div>

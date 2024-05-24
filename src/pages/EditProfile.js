@@ -18,8 +18,9 @@ const EditProfile = () => {
 
   const { register, handleSubmit, onSubmit, errors, imageUrl, setImageUrl } =
     useStaffSubmit(adminInfo._id);
+  console.log("Rendering EditProfile component");
   console.log("adminInfo._id :", adminInfo._id)
-  console.log("adminInfo._id :", adminInfo)
+  console.log("adminInfo :", adminInfo)
   return (
     <>
       <PageTitle> {t("EditProfile")} </PageTitle>

@@ -132,7 +132,7 @@ const Languages = () => {
                 {t("Delete")}
               </Button>
             </div>
-            <Button onClick={toggleDrawer} className="rounded-md h-12 w-64">
+            <Button onClick={toggleDrawer} className="rounded-md h-12 w-full md:w-32 lg:w-32 xl:w-32">
               <span className="mr-2">
                 <FiPlus />
               </span>

@@ -10,6 +10,7 @@ import {
 } from "@react-pdf/renderer";
 import { useTranslation } from "react-i18next";
 import logoDark from "../../assets/img/logo/logo-dark.png";
+import logo from "../../assets/img/logo/logo.png";
 import { showDateFormat } from "utils/dateFormate";
 
 Font.register({
@@ -338,8 +339,8 @@ const InvoiceForDownload = ({ data, currency, globalSetting }) => {
                 }}
               >
                 <Image
-                  src={logoDark}
-                  alt="dashtar"
+                  src={logo}
+                  alt="ecomdaddy"
                   style={{
                     width: 80,
                   }}

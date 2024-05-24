@@ -32,7 +32,8 @@ const ForgotPassword = () => {
           <main className="flex items-center justify-center p-6 sm:p-12 md:w-1/2">
             <div className="w-full">
               <h1 className="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200">
-                Forgot password
+                {/* Forgot password */}
+                Forget Password
               </h1>
 
               <form onSubmit={handleSubmit(onSubmit)}>
@@ -47,7 +48,8 @@ const ForgotPassword = () => {
                 <Error errorName={errors.verifyEmail} />
 
                 <Button disabled={loading} type="submit" block className="mt-4 h-12">
-                  Recover password
+                  {/* Recover password */}
+                  Recover Password
                 </Button>
               </form>
               <p className="mt-4">

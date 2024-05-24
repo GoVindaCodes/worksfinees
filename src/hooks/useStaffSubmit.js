@@ -33,6 +33,7 @@ const useStaffSubmit = (id) => {
   } = useForm();
 
   const onSubmit = async (data) => {
+    console.log("dataas", data)
     try {
       setIsSubmitting(true);
 
@@ -49,6 +50,7 @@ const useStaffSubmit = (id) => {
           : dayjs(new Date()).format("YYYY-MM-DD"),
         image: imageUrl,
         lang: language,
+        captcha: data.captcha,
       };
 
       if (id) {

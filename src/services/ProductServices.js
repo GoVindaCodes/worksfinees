@@ -119,7 +119,10 @@
 // new backendss addedds
 
 import requests from './httpService';
+import io from "socket.io-client";
 
+// Create a socket connection to the server
+const socket = io("http://localhost:5055");
 const ProductServices = {
   getAllProducts: async () => {
     return requests.get("/api/products");
@@ -154,8 +157,32 @@ const ProductServices = {
     return requests.patch("/api/products/update/many", body);
   },
 
+  // updateStatus: async (id, body) => {
+  //   return requests.put(`/api/products/status/${id}`, body);
+  // },
+
   updateStatus: async (id, body) => {
-    return requests.put(`/api/products/status/${id}`, body);
+    // Make the HTTP request to update the status
+    const response = await requests.put(`/api/products/status/${id}`, body);
+
+    // If the HTTP request is successful, emit a status update event to the server
+    if (response.status === 200) {
+      socket.emit("updateStatus", id, body.status);
+    }
+
+    return response;
+  },
+
+  // Method for subscribing to product status updates
+  subscribeToStatusUpdates: (callback) => {
+    // Listen for status updates from the server
+    socket.on("statusUpdate", callback);
+  },
+
+  // Method for unsubscribing from status updates
+  unsubscribeFromStatusUpdates: () => {
+    // Remove the event listener for status updates
+    socket.off("statusUpdate");
   },
 
   deleteProduct: async (id) => {
@@ -164,7 +191,97 @@ const ProductServices = {
 
   deleteManyProducts: async (body) => {
     return requests.patch("/api/products/delete/many", body);
+  },
+  // New methods for handling product reviews
+  addReview: async (productId, review) => {
+    console.log("id", productId);
+    console.log("review", review);
+    return requests.post(`/api/products/${productId}/reviews`, review);
+  },
+
+  // updateReview: async (productId, reviewId, review) => {
+  //   return requests.patch(`/api/products/${productId}/reviews/${reviewId}`, review);
+  // },
+
+  // deleteReview: async (productId, reviewId) => {
+  //   return requests.delete(`/api/products/${productId}/reviews/${reviewId}`);
+  // },
+
+  updateReview: async (productId, reviewId, review) => {
+    // console.log("Review updated successfully:", productId, reviewId, review);
+    try {
+      const response = await requests.patch(`/api/products/${productId}/reviews/${reviewId}`, review);
+      console.log("Review updated successfully:", response);
+      return response;
+    } catch (error) {
+      console.error("Error updating review:", error.message);
+      throw error;
+    }
+  },
+
+  deleteReview: async (reviewId) => {
+    console.log("Review to be deleted:", reviewId);
+    try {
+      const response = await requests.delete(`/api/products/reviews/${reviewId}`);
+      console.log("Review deleted successfully:", response);
+      return response;
+    } catch (error) {
+      console.error("Error deleting review:", error.message);
+      throw error;
+    }
+  },
+
+  getRatingsForProduct: async (productId) => {
+    try {
+      const response = await requests.get(`/api/products/${productId}/ratings`);
+      console.log("=========================", response);
+      return response;
+    } catch (error) {
+      console.error("Error fetching ratings:", error.message);
+      throw error;
+    }
+  },
+
+  setPaymentMethod: async (method, userId) => {
+    console.log("hey", method)
+    console.log("hi", userId)
+    try {
+      const { icon, ...methodData } = method;
+      const response = await requests.post(`/api/products/${userId}/payment`, methodData);
+      console.log("Response from server:", response.data);
+      return response;
+    } catch (error) {
+      console.error("Error setting default payment method:", error);
+      throw error;
+    }
+  },
+
+  addAddress: async (address, userId) => {
+    console.log("address", address);
+    console.log("id", userId);
+    return requests.post(`/api/products/${userId}/address`, { address });
+  },
+  getAddressByUserId: async (userId) => {
+    try {
+      const response = await requests.get(`/api/products/${userId}/address`);
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching address:", error.message);
+      throw error;
+    }
+  },
+
+  getPaymentMethodByProductId: async (productId) => {
+    console.log("Fetching payment methods for product ID:", productId);
+    try {
+      const response = await requests.get(`/api/products/${productId}/payment`);
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching payment method:", error.message);
+      throw error;
+    }
   }
+
 };
 
 export default ProductServices;

@@ -45,9 +45,8 @@ const InputValue = ({
           placeholder={placeholder}
           name={name}
           step={0.01}
-          className={`bg-gray-50 mr-2 rounded w-full h-12 p-2 text-sm border border-gray-300 focus:bg-white focus:border-gray-300 focus:outline-none ${
-            product && "rounded-l-none"
-          }`}
+          className={`bg-gray-50 mr-2 rounded w-full h-12 p-2 text-sm border border-gray-300 focus:bg-white focus:border-gray-300 focus:outline-none ${product && "rounded-l-none"
+            }`}
         />
       </div>
     </>

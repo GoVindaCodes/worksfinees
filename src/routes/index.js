@@ -1,4 +1,5 @@
 import ComposeEmail from "components/customer/ComposeEmail";
+import NotAdmin from "pages/NotAdmin ";
 import { lazy } from "react";
 
 // use lazy for better code splitting
@@ -79,9 +80,8 @@ const routes = [
     path: "/customer-order/:id",
     component: CustomerOrder,
   },
-  // justt testings it
   {
-    path: "/compose-email/:id", // New route for ComposeEmail component
+    path: "/compose-email/:id",
     component: ComposeEmail,
   },
   {
@@ -100,10 +100,17 @@ const routes = [
     path: "/coupons",
     component: Coupons,
   },
-  { path: "/settings", component: Setting },
+  {
+    path: "/settings",
+    component: Setting
+  },
   {
     path: "/404",
     component: Page404,
+  },
+  {
+    path: "/not-admin",
+    component: NotAdmin,
   },
   {
     path: "/coming-soon",

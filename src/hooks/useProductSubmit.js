@@ -56,6 +56,83 @@ const useProductSubmit = (id) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [slug, setSlug] = useState("");
 
+
+
+  // --------------------------------reviews----------------------------
+
+  const [ratings, setRatings] = useState([]);
+  const [ratingSubmitted, setRatingSubmitted] = useState(false);
+
+  useEffect(() => {
+    async function fetchProductReviews() {
+      try {
+        const product = await ProductServices.getProductById(id);
+        setRatings(product.reviews);
+      } catch (error) {
+        console.error("Error fetching product reviews:", error);
+      }
+    }
+
+    if (ratingSubmitted) {
+      fetchProductReviews();
+      setRatingSubmitted(false);
+    }
+  }, [id, ratingSubmitted]);
+
+  const submitRating = async (rating) => {
+    try {
+      console.log('Submitting rating:', rating);
+      await ProductServices.addReview(id, rating);
+      console.log('Rating submitted successfully.');
+      setRatingSubmitted(true);
+      notifySuccess("Rating submitted successfully.");
+    } catch (error) {
+      console.error('Error submitting rating:', error);
+      notifyError("Failed to submit rating.");
+    }
+  };
+
+
+
+  // Function to update user's own rating
+
+  const updateRating = async (ratingId, newRating) => {
+    try {
+      const response = await ProductServices.updateReview(id, ratingId, newRating);
+      const updatedReview = response.review;
+      const updatedRatings = ratings.map((r) => (r._id === ratingId ? updatedReview : r));
+      setRatings(updatedRatings);
+      notifySuccess("Rating updated successfully.");
+    } catch (error) {
+      console.error("Error updating rating:", error);
+      notifyError("Failed to update rating.");
+    }
+  };
+
+
+
+  const deleteRating = async (ratingId) => {
+    try {
+      console.log('Deleting rating with ID:', ratingId);
+      await ProductServices.deleteReview(ratingId);
+      console.log('Review deleted successfully:', ratingId);
+
+      setRatings((prevRatings) => {
+        const updatedRatings = prevRatings.filter((rating) => rating._id !== ratingId);
+        console.log('Updated ratings after delete:', updatedRatings);
+        return updatedRatings;
+      });
+
+      notifySuccess("Rating deleted successfully.");
+    } catch (error) {
+      console.error('Failed to delete rating:', error);
+      notifyError("Failed to delete rating.");
+    }
+  };
+
+
+
+  // --------------------------------reviews----------------------------
   // console.log("lang", lang);
 
   // console.log(
@@ -93,6 +170,7 @@ const useProductSubmit = (id) => {
       }
 
       const updatedVariants = variants.map((v, i) => {
+        console.log("updated variants", v?.price)
         const newObj = {
           ...v,
           price: Number(v?.price || 0),
@@ -110,7 +188,7 @@ const useProductSubmit = (id) => {
       setSku(data.sku);
       setOriginalPrice(data.originalPrice);
       // const selectedCategory = [{ "_id": "61b0d3975741dd2e949d53ff", "name": "Snacks & Instant" }];
-
+      console.log("selected Categories : ", selectedCategory)
       // Extracting just the names from the selectedCategory array
       const categoryNames = selectedCategory.map(category => category.name);
       const generateCustomId = () => {
@@ -118,6 +196,7 @@ const useProductSubmit = (id) => {
         const randomPart = Math.random().toString(36).substr(2, 9);
         return timestamp + randomPart;
       };
+
       const productData = {
         // productId: productId,
         // _id: data._id,
@@ -131,15 +210,19 @@ const useProductSubmit = (id) => {
         // category: data.parent,
         parent: defaultCategory[0].name,
         // category: data.parent,
-        quantity: data.stock,
+        quantity: data.quantity,
         flashsale: data.flashsale,
         // barcode: data.barcode,
-        image: data.imageUrl,
-        stock: data.stock,
+        // commenting this out works amazingly now 
+        // image: data.imageUrl,
+        image: imageUrl,
+        stock: data.quantity,
+        // stock: variants?.length < 1 ? data.stock : Number(totalStock),
         // tag: data.isArray(data.tag) ? data.tag : [],
         tag: JSON.stringify(categoryNames),
         price: data.price || 0,
         originalPrice: data.originalPrice || 0,
+        isCombination: updatedVariants?.length > 0 ? isCombination : false,
         variants: isCombination ? updatedVariants : [],
       };
 
@@ -391,8 +474,8 @@ const useProductSubmit = (id) => {
       const result = attribue
         .filter((att) => att.option !== "Checkbox")
         .map((v) => ({
-          label: showingTranslateValue(v?.title, lang),
-          value: showingTranslateValue(v?.title, lang),
+          label: showingTranslateValue(v?.title.en, lang),
+          value: showingTranslateValue(v?.title.en, lang),
         }));
       setAttTitle([...result]);
 
@@ -411,12 +494,12 @@ const useProductSubmit = (id) => {
   //for adding attribute values
   const handleAddAtt = (v, el) => {
     const result = attribue.filter((att) => {
-      const attribueTItle = showingTranslateValue(att?.title, lang);
+      const attribueTItle = showingTranslateValue(att?.title.en, lang);
       return v.some((item) => item.label === attribueTItle);
     });
 
     const attributeArray = result.map((value) => {
-      const attributeTitle = showingTranslateValue(value?.title, lang);
+      const attributeTitle = showingTranslateValue(value?.title.en, lang);
       return {
         ...value,
         label: attributeTitle,
@@ -446,13 +529,12 @@ const useProductSubmit = (id) => {
         ...rest
       }) => JSON.stringify({ ...rest }) !== "{}"
     );
+    console.log("result", result);
 
-    // console.log("result", result);
 
     setVariants(result);
 
     const combo = combinate(values);
-
     combo.map((com, i) => {
       if (JSON.stringify(variant).includes(JSON.stringify(com))) {
         return setVariant((pre) => [...pre, com]);
@@ -477,9 +559,9 @@ const useProductSubmit = (id) => {
 
     setValues({});
 
-    // resetRef?.current?.map((v, i) =>
-    //   resetRef?.current[i]?.resetSelectedValues()
-    // );
+    resetRef?.current?.map((v, i) =>
+      resetRef?.current[i]?.resetSelectedValues()
+    );
   };
 
   //for clear selected combination
@@ -647,6 +729,8 @@ const useProductSubmit = (id) => {
   };
 
   return {
+    price,
+    originalPrice,
     tag,
     setTag,
     values,
@@ -691,6 +775,11 @@ const useProductSubmit = (id) => {
     handleSelectImage,
     handleSelectInlineImage,
     handleGenerateCombination,
+    ratings,
+    submitRating,
+    updateRating,
+    setRatings,
+    deleteRating,
   };
 };
 

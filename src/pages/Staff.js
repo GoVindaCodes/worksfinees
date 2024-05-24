@@ -32,11 +32,13 @@ import useAsync from "hooks/useAsync";
 import AdminServices from "services/AdminServices";
 import requests from "services/httpService";
 import StaffDrawer from "components/drawer/StaffDrawer";
+import { AdminContext } from "context/AdminContext";
 // import AdminServices from "services/AdminServices";
 
 const Staff = () => {
-  // const { state } = useContext(AdminContext);
-  // const { adminInfo } = state;
+  const { state } = useContext(AdminContext);
+  const { adminInfo } = state;
+  console.log("adminInfos : ", adminInfo);
   const { toggleDrawer, lang } = useContext(SidebarContext);
 
   // const { data, loading } = useAsync(() => AdminServices.getAllStaff({ email: ('adminInfo.email') }));

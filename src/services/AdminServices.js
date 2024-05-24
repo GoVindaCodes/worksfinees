@@ -303,11 +303,22 @@ import requests from "./httpService";
 
 const AdminServices = {
   registerAdmin: async (body) => {
+    console.log("datas after registration: ", body)
     return requests.post("/api/admin/register", body);
   },
 
   loginAdmin: async (body) => {
     return requests.post("/api/admin/login", body);
+  },
+
+  googleLoginAdmin: async (body) => {
+    console.log("hi: ", body)
+    return requests.post("/api/admin/google-login", body);
+  },
+
+  facebookLoginAdmin: async (body) => {
+    console.log("hi: ", body)
+    return requests.post("/api/admin/facebook-login", body);
   },
 
   forgetPassword: async (body) => {
