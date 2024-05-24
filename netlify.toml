@@ -1,0 +1,18 @@
+[build]
+  command = "CI=false npm run build"
+  publish = "build"
+
+[build.environment]
+  REACT_APP_API_BASE_URL = "https://totallyworking.onrender.com/"
+  REACT_APP_ADMIN_DOMAIN = "https://main--extraordinary-llama-0e555a.netlify.app/"
+  REACT_APP_STORE_DOMAIN = "store.example.com"
+  REACT_APP_CLOUD_NAME = "dq3dppxqs"
+  REACT_APP_CLOUDINARY_API_KEY = "672485723284634"
+  REACT_APP_CLOUDINARY_API_SECRET = "66_IURX_9aBDQG8Bg4ZEcBGavps"
+  REACT_APP_CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/dq3dppxqs/image/upload"
+  REACT_APP_CLOUDINARY_UPLOAD_PRESET = "ml_default"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
