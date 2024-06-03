@@ -135,7 +135,7 @@
 
 
 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ revert when not working
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ revert when not working
 
 import React, { useState } from "react";
 import MobileOTPComponent from "./MobileOTPComponent";
