@@ -24,10 +24,10 @@
 
 
 import requests from './httpService';
-import io from "socket.io-client";
+// import io from "socket.io-client";
 
 // Create a socket connection to the server
-const socket = io("http://localhost:5055");
+// const socket = io("http://localhost:5055");
 
 const NotificationServices = {
   // Add a new notification
@@ -45,14 +45,14 @@ const NotificationServices = {
   updateStatus: async (id, body) => {
     await requests.put(`api/notification/${id}`, body);
     // Emit event to notify other clients about the update
-    socket.emit("notification:updateStatus", { id, ...body });
+    // socket.emit("notification:updateStatus", { id, ...body });
   },
 
   // Delete a notification and emit an event to notify other clients
   deleteNotification: async (id) => {
     await requests.delete(`api/notification/${id}`);
     // Emit event to notify other clients about the deletion
-    socket.emit("notification:delete", { id });
+    // socket.emit("notification:delete", { id });
   },
 };
 
