@@ -123,7 +123,7 @@ const CustomPagination = ({ currentPage, totalResults, resultsPerPage, onChange,
             <div className="text-xs font-small text-gray-800 dark:text-gray-300">{`Showing ${startCount}-${endCount} of ${totalResults}`}</div>
             <div className="flex items-center space-x-1">
                 <button
-                    className={`p-0.5 rounded-full border focus:outline-none border-transparent bg-transparent text-gray-600 hover:text-gray-800 hover:border-gray-400 disabled:opacity-50 disabled:cursor-not-allowed ml-1 ${isFirstPage && 'cursor-not-allowed'}`}
+                    className={`p-0.5 rounded-full focus:outline-none border border-transparent bg-transparent text-gray-600 hover:text-gray-800 hover:border-gray-400 disabled:opacity-50 disabled:cursor-not-allowed ml-1 ${isFirstPage && 'cursor-not-allowed'}`}
                     onClick={() => !isFirstPage && onChange(currentPage - 1)}
                     disabled={isFirstPage}
                 >
